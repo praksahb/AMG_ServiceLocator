@@ -16,7 +16,7 @@ namespace ServiceLocator.Map
         private MapData currentMapData;
         private SpriteRenderer tileOverlay;
 
-        public static MapService Instance { get; private set; }
+        public static MapService Instance { get { return instance; } }
         private static MapService instance;
 
         private void Awake()

@@ -37,7 +37,7 @@ namespace ServiceLocator.UI
         [SerializeField] private Button playAgainButton;
         [SerializeField] private Button quitButton;
 
-        public static UIService Instance { get; private set; }
+        public static UIService Instance { get { return instance; } }
         private static UIService instance;
 
         private void Awake()

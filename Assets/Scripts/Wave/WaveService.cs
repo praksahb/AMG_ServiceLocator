@@ -19,7 +19,7 @@ namespace ServiceLocator.Wave
         private List<WaveData> waveDatas;
         private List<BloonController> activeBloons;
 
-        public static WaveService Instance { get; private set; }
+        public static WaveService Instance { get { return instance; } }
         private static WaveService instance;
 
         private void Awake()
