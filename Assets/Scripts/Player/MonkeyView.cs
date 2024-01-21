@@ -1,5 +1,5 @@
-using UnityEngine;
 using ServiceLocator.Wave.Bloon;
+using UnityEngine;
 
 namespace ServiceLocator.Player
 {
@@ -16,6 +16,23 @@ namespace ServiceLocator.Player
             monkeyAnimator = GetComponent<Animator>();
         }
         public void SetController(MonkeyController controller) => this.controller = controller;
+
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.TryGetComponent<BloonView>(out BloonView bloon))
+            {
+                controller.BloonEnteredRange(bloon.Controller);
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (collision.TryGetComponent<BloonView>(out BloonView bloon))
+            {
+                controller.BloonExitedRange(bloon.Controller);
+            }
+        }
 
         public void SetTriggerRadius(float radiusToSet)
         {

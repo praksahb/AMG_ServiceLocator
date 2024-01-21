@@ -1,8 +1,8 @@
-using System.Collections.Generic;
-using UnityEngine;
-using ServiceLocator.Wave.Bloon;
 using ServiceLocator.Player.Projectile;
 using ServiceLocator.Sound;
+using ServiceLocator.Wave.Bloon;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace ServiceLocator.Player
 {
@@ -25,6 +25,15 @@ namespace ServiceLocator.Player
             this.projectilePool = projectilePool;
             bloonsInRange = new List<BloonController>();
             ResetAttackTimer();
+        }
+
+        public void UpdateMonkey()
+        {
+            if (bloonsInRange.Count > 0)
+            {
+                RotateTowardsTarget(bloonsInRange[0]);
+                ShootAtTarget(bloonsInRange[0]);
+            }
         }
 
         public void SetPosition(Vector3 positionToSet) => monkeyView.transform.position = positionToSet;

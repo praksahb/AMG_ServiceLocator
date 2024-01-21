@@ -1,10 +1,10 @@
+using ServiceLocator.Map;
+using ServiceLocator.Player.Projectile;
+using ServiceLocator.Sound;
+using ServiceLocator.UI;
+using ServiceLocator.Utilities;
 using System.Collections.Generic;
 using UnityEngine;
-using ServiceLocator.Player.Projectile;
-using ServiceLocator.Utilities;
-using ServiceLocator.UI;
-using ServiceLocator.Map;
-using ServiceLocator.Sound;
 
 namespace ServiceLocator.Player
 {
@@ -37,6 +37,14 @@ namespace ServiceLocator.Player
 
         public void Update()
         {
+            if (activeMonkeys.Count > 0)
+            {
+                foreach (MonkeyController monkey in activeMonkeys)
+                {
+                    monkey.UpdateMonkey();
+                }
+            }
+
             if (Input.GetMouseButtonDown(0))
             {
                 UpdateSelectedMonkeyDisplay();
