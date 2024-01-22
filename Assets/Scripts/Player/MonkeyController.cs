@@ -1,5 +1,5 @@
+using Assets.Scripts.Main;
 using ServiceLocator.Player.Projectile;
-using ServiceLocator.Sound;
 using ServiceLocator.Wave.Bloon;
 using System.Collections.Generic;
 using UnityEngine;
@@ -69,7 +69,7 @@ namespace ServiceLocator.Player
                 ProjectileController projectile = projectilePool.GetProjectile(monkeyScriptableObject.projectileType);
                 projectile.SetPosition(monkeyView.transform.position);
                 projectile.SetTarget(targetBloon);
-                SoundService.Instance.PlaySoundEffects(Sound.SoundType.MonkeyShoot);
+                GameService.Instance.SoundService.PlaySoundEffects(Sound.SoundType.MonkeyShoot);
                 ResetAttackTimer();
             }
         }

@@ -1,5 +1,4 @@
 using Assets.Scripts.Main;
-using ServiceLocator.Sound;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -60,7 +59,7 @@ namespace ServiceLocator.Wave.Bloon
             if (currentHealth <= 0 && currentState == BloonState.ACTIVE)
             {
                 PopBloon();
-                SoundService.Instance.PlaySoundEffects(Sound.SoundType.BloonPop);
+                GameService.Instance.SoundService.PlaySoundEffects(Sound.SoundType.BloonPop);
             }
         }
 
@@ -85,8 +84,8 @@ namespace ServiceLocator.Wave.Bloon
 
         private void ResetBloon()
         {
-            WaveService.Instance.RemoveBloon(this);
-            GameService.Instance.playerService.TakeDamage(bloonScriptableObject.Damage);
+            GameService.Instance.WaveService.RemoveBloon(this);
+            GameService.Instance.PlayerService.TakeDamage(bloonScriptableObject.Damage);
             bloonView.gameObject.SetActive(false);
         }
 
@@ -105,13 +104,13 @@ namespace ServiceLocator.Wave.Bloon
             if (HasLayeredBloons())
                 SpawnLayeredBloons();
 
-            GameService.Instance.playerService.GetReward(bloonScriptableObject.Reward);
-            WaveService.Instance.RemoveBloon(this);
+            GameService.Instance.PlayerService.GetReward(bloonScriptableObject.Reward);
+            GameService.Instance.WaveService.RemoveBloon(this);
         }
 
         private bool HasLayeredBloons() => bloonScriptableObject.LayeredBloons.Count > 0;
 
-        private void SpawnLayeredBloons() => WaveService.Instance.SpawnBloons(bloonScriptableObject.LayeredBloons,
+        private void SpawnLayeredBloons() => GameService.Instance.WaveService.SpawnBloons(bloonScriptableObject.LayeredBloons,
                                                                               bloonView.transform.position,
                                                                               currentWaypointIndex,
                                                                               bloonScriptableObject.LayerBloonSpawnRate);
