@@ -1,20 +1,23 @@
 using NUnit.Framework;
-using System.Collections.Generic;
-using UnityEngine;
 using ServiceLocator.Player;
 using ServiceLocator.Player.Projectile;
+using ServiceLocator.Sound;
 using ServiceLocator.Wave.Bloon;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class MonkeyController_UnitTest
 {
     private MonkeyController monkeyController;
+    private SoundService soundService;
+    private PlayerService playerService;
 
     [SetUp]
     public void Setup()
     {
         MonkeyScriptableObject monkeySO = CreateDummyMonkeySO();
         ProjectilePool projectilePool = CreateDummyProjectilePool();
-        monkeyController = new MonkeyController(monkeySO, projectilePool);
+        monkeyController = new MonkeyController(monkeySO, projectilePool, soundService);
     }
 
     private MonkeyScriptableObject CreateDummyMonkeySO()
@@ -37,7 +40,7 @@ public class MonkeyController_UnitTest
         ProjectileView projectilePrefab = new GameObject().AddComponent<ProjectileView>();
         List<ProjectileScriptableObject> projectileSOs = new List<ProjectileScriptableObject>();
         projectileSOs.Add(ScriptableObject.CreateInstance<ProjectileScriptableObject>());
-        return new ProjectilePool(projectilePrefab, projectileSOs);
+        return new ProjectilePool(projectilePrefab, projectileSOs, playerService);
     }
 
     [Test]

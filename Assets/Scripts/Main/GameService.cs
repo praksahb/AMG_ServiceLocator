@@ -3,13 +3,12 @@ using ServiceLocator.Map;
 using ServiceLocator.Player;
 using ServiceLocator.Sound;
 using ServiceLocator.UI;
-using ServiceLocator.Utilities;
 using ServiceLocator.Wave;
 using UnityEngine;
 
 namespace ServiceLocator.Main
 {
-    public class GameService : GenericMonoSingleton<GameService>
+    public class GameService : MonoBehaviour
     {
         // Services:
         public EventService EventService { get; private set; }
@@ -51,8 +50,8 @@ namespace ServiceLocator.Main
         {
             PlayerService.Init(UIService, MapService, SoundService);
             MapService.Init(EventService);
-            WaveService.Init(EventService, UIService, MapService, SoundService);
-            UIService.Init(EventService, WaveService);
+            WaveService.Init(EventService, UIService, MapService, SoundService, PlayerService);
+            UIService.Init(EventService, WaveService, PlayerService);
         }
 
         private void Update()

@@ -1,8 +1,8 @@
+using ServiceLocator.Player.Projectile;
+using ServiceLocator.Sound;
+using ServiceLocator.Wave.Bloon;
 using System.Collections.Generic;
 using UnityEngine;
-using ServiceLocator.Wave.Bloon;
-using ServiceLocator.Player.Projectile;
-using ServiceLocator.Main;
 
 namespace ServiceLocator.Player
 {
@@ -12,15 +12,18 @@ namespace ServiceLocator.Player
         private MonkeyScriptableObject monkeyScriptableObject;
         private ProjectilePool projectilePool;
 
+        private SoundService soundService;
+
         private List<BloonController> bloonsInRange;
         private float attackTimer;
 
-        public MonkeyController(MonkeyScriptableObject monkeyScriptableObject, ProjectilePool projectilePool)
+        public MonkeyController(MonkeyScriptableObject monkeyScriptableObject, ProjectilePool projectilePool, SoundService soundService)
         {
+            this.soundService = soundService;
             monkeyView = Object.Instantiate(monkeyScriptableObject.Prefab);
             monkeyView.SetController(this);
             monkeyView.SetTriggerRadius(monkeyScriptableObject.Range);
-            
+
             this.monkeyScriptableObject = monkeyScriptableObject;
             this.projectilePool = projectilePool;
             bloonsInRange = new List<BloonController>();
@@ -45,7 +48,7 @@ namespace ServiceLocator.Player
 
         public void UpdateMonkey()
         {
-            if(bloonsInRange.Count > 0)
+            if (bloonsInRange.Count > 0)
             {
                 RotateTowardsTarget(bloonsInRange[0]);
                 ShootAtTarget(bloonsInRange[0]);
@@ -62,12 +65,12 @@ namespace ServiceLocator.Player
         private void ShootAtTarget(BloonController targetBloon)
         {
             attackTimer -= Time.deltaTime;
-            if(attackTimer <= 0)
+            if (attackTimer <= 0)
             {
                 ProjectileController projectile = projectilePool.GetProjectile(monkeyScriptableObject.projectileType);
                 projectile.SetPosition(monkeyView.transform.position);
                 projectile.SetTarget(targetBloon);
-                GameService.Instance.SoundService.PlaySoundEffects(Sound.SoundType.MonkeyShoot);
+                soundService.PlaySoundEffects(Sound.SoundType.MonkeyShoot);
                 ResetAttackTimer();
             }
         }
