@@ -1,11 +1,11 @@
-using UnityEngine;
-using ServiceLocator.Utilities;
 using ServiceLocator.Events;
 using ServiceLocator.Map;
-using ServiceLocator.Wave;
-using ServiceLocator.Sound;
 using ServiceLocator.Player;
+using ServiceLocator.Sound;
 using ServiceLocator.UI;
+using ServiceLocator.Utilities;
+using ServiceLocator.Wave;
+using UnityEngine;
 
 namespace ServiceLocator.Main
 {
@@ -34,12 +34,23 @@ namespace ServiceLocator.Main
 
         private void Start()
         {
+            CreateServices();
+            InjectDependency();
+        }
+
+        private void CreateServices()
+        {
             EventService = new EventService();
             UIService.SubscribeToEvents();
             MapService = new MapService(mapScriptableObject);
             WaveService = new WaveService(waveScriptableObject);
             SoundService = new SoundService(soundScriptableObject, SFXSource, BGSource);
             PlayerService = new PlayerService(playerScriptableObject);
+        }
+
+        private void InjectDependency()
+        {
+            PlayerService.Init(UIService, MapService, SoundService);
         }
 
         private void Update()
