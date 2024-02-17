@@ -1,10 +1,10 @@
-using UnityEngine;
 using ServiceLocator.Events;
 using ServiceLocator.Map;
-using ServiceLocator.Wave;
-using ServiceLocator.Sound;
 using ServiceLocator.Player;
+using ServiceLocator.Sound;
 using ServiceLocator.UI;
+using ServiceLocator.Wave;
+using UnityEngine;
 
 namespace ServiceLocator.Main
 {
@@ -55,6 +55,7 @@ namespace ServiceLocator.Main
         private void Update()
         {
             playerService.Update();
+            waveService.Update(Time.deltaTime);
         }
     }
 }

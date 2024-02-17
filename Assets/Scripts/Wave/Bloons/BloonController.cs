@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-using UnityEngine;
 using ServiceLocator.Player;
 using ServiceLocator.Sound;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace ServiceLocator.Wave.Bloon
 {
@@ -20,6 +20,7 @@ namespace ServiceLocator.Wave.Bloon
         private int currentHealth;
         private int currentWaypointIndex;
         private BloonState currentState;
+        private float HitTimer;
 
         public Vector3 Position => bloonView.transform.position;
 
@@ -42,9 +43,10 @@ namespace ServiceLocator.Wave.Bloon
 
         private void InitializeVariables()
         {
-            bloonView.SetRenderer(bloonScriptableObject.Sprite);
+            bloonView.SetRenderer(bloonScriptableObject.Sprite, bloonScriptableObject.Type);
             currentHealth = bloonScriptableObject.Health;
             waypoints = new List<Vector3>();
+            HitTimer = 0f;
         }
 
         public void SetPosition(Vector3 spawnPosition)
@@ -63,19 +65,34 @@ namespace ServiceLocator.Wave.Bloon
 
         public void TakeDamage(int damageToTake)
         {
+            HitTimer = bloonScriptableObject.TimeToRegen;
+
             int reducedHealth = currentHealth - damageToTake;
             currentHealth = reducedHealth <= 0 ? 0 : reducedHealth;
 
-            if(currentHealth <= 0 && currentState == BloonState.ACTIVE)
+            if (currentHealth <= 0 && currentState == BloonState.ACTIVE)
             {
                 PopBloon();
                 soundService.PlaySoundEffects(SoundType.BloonPop);
             }
         }
 
+        public void RegenHealth(float deltaTime)
+        {
+            HitTimer -= deltaTime;
+            if (HitTimer <= 0f && currentHealth < bloonScriptableObject.Health)
+            {
+                currentHealth += bloonScriptableObject.HealthRegen;
+                if (currentHealth > bloonScriptableObject.Health) currentHealth = bloonScriptableObject.Health;
+                // add time gap of 0.5f between regens
+                HitTimer = bloonScriptableObject.TimeBetweenRegen;
+                Debug.Log("Current Health: " + currentHealth);
+            }
+        }
+
         public void FollowWayPoints()
         {
-            if(HasReachedFinalWaypoint())
+            if (HasReachedFinalWaypoint())
             {
                 ResetBloon();
             }
@@ -133,6 +150,6 @@ namespace ServiceLocator.Wave.Bloon
     public enum BloonState
     {
         ACTIVE,
-        POPPED
+        POPPED,
     }
 }

@@ -8,6 +8,9 @@ namespace ServiceLocator.Wave.Bloon
     {
         public BloonType Type;
         public int Health;
+        public int HealthRegen;
+        public float TimeToRegen;
+        public float TimeBetweenRegen;
         public int Damage;
         public int Reward;
         public float Speed;

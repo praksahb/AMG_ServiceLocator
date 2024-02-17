@@ -1,12 +1,12 @@
-using System.Collections.Generic;
-using UnityEngine;
-using ServiceLocator.Wave.Bloon;
-using System.Threading.Tasks;
-using ServiceLocator.UI;
-using ServiceLocator.Map;
-using ServiceLocator.Sound;
-using ServiceLocator.Player;
 using ServiceLocator.Events;
+using ServiceLocator.Map;
+using ServiceLocator.Player;
+using ServiceLocator.Sound;
+using ServiceLocator.UI;
+using ServiceLocator.Wave.Bloon;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using UnityEngine;
 
 namespace ServiceLocator.Wave
 {
@@ -54,6 +54,14 @@ namespace ServiceLocator.Wave
             uiService.UpdateWaveProgressUI(currentWaveId, waveDatas.Count);
         }
 
+        public void Update(float deltaTime)
+        {
+            foreach (BloonController bloon in activeBloons)
+            {
+                bloon?.RegenHealth(deltaTime);
+            }
+        }
+
         public void StarNextWave()
         {
             currentWaveId++;
@@ -64,7 +72,7 @@ namespace ServiceLocator.Wave
 
         public async void SpawnBloons(List<BloonType> bloonsToSpawn, Vector3 spawnPosition, int startingWaypointIndex, float spawnRate)
         {
-            foreach(BloonType bloonType in bloonsToSpawn)
+            foreach (BloonType bloonType in bloonsToSpawn)
             {
                 BloonController bloon = bloonPool.GetBloon(bloonType);
                 bloon.SetPosition(spawnPosition);
@@ -90,7 +98,7 @@ namespace ServiceLocator.Wave
                 soundService.PlaySoundEffects(Sound.SoundType.WaveComplete);
                 uiService.UpdateWaveProgressUI(currentWaveId, waveDatas.Count);
 
-                if(IsLevelWon())
+                if (IsLevelWon())
                     uiService.UpdateGameEndUI(true);
                 else
                     uiService.SetNextWaveButton(true);
