@@ -1,11 +1,12 @@
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using ServiceLocator.Wave;
-using ServiceLocator.Player;
 using ServiceLocator.Events;
+using ServiceLocator.Player;
+using ServiceLocator.Wave;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace ServiceLocator.UI
 {
@@ -26,6 +27,10 @@ namespace ServiceLocator.UI
         [Header("Level Selection Panel")]
         [SerializeField] private GameObject levelSelectionPanel;
         [SerializeField] private List<MapButton> mapButtons;
+        [SerializeField] private GameObject lockedScreenDisplay;
+        [SerializeField] private float lockMessageTime;
+        private static int currentMapIndex = 0;
+        private Coroutine newCoroutine;
 
         [Header("Monkey Selection UI")]
         private MonkeySelectionUIController monkeySelectionController;
@@ -63,10 +68,27 @@ namespace ServiceLocator.UI
         private void InitializeMapSelectionUI(EventService eventService)
         {
             levelSelectionPanel.SetActive(true);
-            foreach (MapButton mapButton in mapButtons)
+
+            if (currentMapIndex >= mapButtons.Count)
             {
-                mapButton.Init(eventService);
+                Debug.Log("Errors");
+                return;
             }
+            for (int i = 0; i <= currentMapIndex; i++)
+            {
+                mapButtons[i].Init(eventService);
+
+            }
+            for (int i = 1; i < mapButtons.Count; i++)
+            {
+                mapButtons[i].LockButton(eventService);
+            }
+        }
+
+        private void UnlockNextLevel()
+        {
+            if (++currentMapIndex >= mapButtons.Count) return;
+            mapButtons[currentMapIndex].UnlockMap();
         }
 
         private void InitializeMonkeySelectionUI(PlayerService playerService)
@@ -76,7 +98,11 @@ namespace ServiceLocator.UI
             monkeySelectionController.SetActive(false);
         }
 
-        private void SubscribeToEvents() => eventService.OnMapSelected.AddListener(OnMapSelected);
+        private void SubscribeToEvents()
+        {
+            eventService.OnMapSelected.AddListener(OnMapSelected);
+            eventService.OnLockedMapSelected.AddListener(OnLockedMapSelected);
+        }
 
         public void OnMapSelected(int mapID)
         {
@@ -85,6 +111,22 @@ namespace ServiceLocator.UI
             MonkeySelectionPanel.SetActive(true);
             monkeySelectionController.SetActive(true);
             currentMapText.SetText("Map: " + mapID);
+        }
+
+        private void OnLockedMapSelected(int mapID)
+        {
+            if (newCoroutine != null)
+            {
+                StopCoroutine(newCoroutine);
+            }
+            newCoroutine = StartCoroutine(DisplayLockedMessage(lockMessageTime));
+        }
+
+        private IEnumerator DisplayLockedMessage(float timer)
+        {
+            lockedScreenDisplay.SetActive(true);
+            yield return new WaitForSeconds(timer);
+            lockedScreenDisplay.SetActive(false);
         }
 
         private void OnNextWaveButton()
@@ -110,6 +152,7 @@ namespace ServiceLocator.UI
             gameplayPanel.SetActive(false);
             levelSelectionPanel.SetActive(false);
             gameEndPanel.SetActive(true);
+            UnlockNextLevel();
 
             if (hasWon)
                 gameEndText.SetText("You Won");

@@ -1,9 +1,8 @@
+using ServiceLocator.Events;
+using ServiceLocator.Player;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using ServiceLocator.Main;
-using ServiceLocator.Player;
-using ServiceLocator.Events;
 
 namespace ServiceLocator.Map
 {
@@ -48,7 +47,7 @@ namespace ServiceLocator.Map
 
         private void SetTileOverlayColor(TileOverlayColor colorToSet)
         {
-            switch(colorToSet)
+            switch (colorToSet)
             {
                 case TileOverlayColor.TRANSPARENT:
                     tileOverlay.color = mapScriptableObject.DefaultTileColor;
@@ -68,7 +67,7 @@ namespace ServiceLocator.Map
             Vector3Int cellPosition = GetCellPosition(mousePosition);
             Vector3 cellCenter = GetCenterOfCell(cellPosition);
 
-            if(CanSpawnOnPosition(cellCenter, cellPosition))
+            if (CanSpawnOnPosition(cellCenter, cellPosition))
             {
                 tileOverlay.transform.position = cellCenter;
                 SetTileOverlayColor(TileOverlayColor.SPAWNABLE);

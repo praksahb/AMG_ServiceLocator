@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: MapScriptableObject
   m_EditorClassIdentifier: 
   MapDatas:
-  - MapID: 1
+  - isMapLocked: 0
+    MapID: 1
     MapPrefab: {fileID: 7584734214643050015, guid: 535d681747b4f184d8126e1ec6614d1d, type: 3}
     SpawningPoint: {x: -7.5, y: -6, z: 0}
     WayPoints:
@@ -28,6 +29,19 @@ MonoBehaviour:
     - {x: 3.5, y: -3.5, z: 0}
     - {x: -2.5, y: -3.5, z: 0}
     - {x: -2.5, y: -6, z: 0}
+  - isMapLocked: 1
+    MapID: 2
+    MapPrefab: {fileID: 7584734214643050015, guid: 789eb776b8b1b2b43838d9118c31abbc, type: 3}
+    SpawningPoint: {x: -10.5, y: 3.5, z: 0}
+    WayPoints:
+    - {x: -2.5, y: 3.5, z: 0}
+    - {x: -2.5, y: 0.5, z: 0}
+    - {x: -7.5, y: 0.5, z: 0}
+    - {x: -7.5, y: -2.5, z: 0}
+    - {x: 2.5, y: -2.5, z: 0}
+    - {x: 2.5, y: 2.5, z: 0}
+    - {x: 5.5, y: 2.5, z: 0}
+    - {x: 5.5, y: -5.5, z: 0}
   TileOverlay: {fileID: 8260900001988789194, guid: 772b5c5b2ee30704f8ecdd1db37a3708, type: 3}
   DefaultTileColor: {r: 1, g: 1, b: 1, a: 0}
   SpawnableTileColor: {r: 0, g: 0, b: 1, a: 0.39215687}

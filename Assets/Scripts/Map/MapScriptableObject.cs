@@ -16,6 +16,7 @@ namespace ServiceLocator.Map
     [System.Serializable]
     public struct MapData
     {
+        public bool isMapLocked;
         public int MapID;
         public Grid MapPrefab;
         public Vector3 SpawningPoint;
