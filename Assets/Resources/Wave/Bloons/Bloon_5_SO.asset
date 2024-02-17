@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Bloon_5_SO
   m_EditorClassIdentifier: 
   Type: 4
-  Health: 150
+  Health: 5000
   HealthRegen: 10
   TimeToRegen: 3
+  TimeBetweenRegen: 0.5
   Damage: 100
-  Reward: 100
+  Reward: 200
   Speed: 0.5
   Sprite: {fileID: 21300000, guid: bd1904d967482ec4aa8a19d645fe29da, type: 3}
   LayeredBloons: 
