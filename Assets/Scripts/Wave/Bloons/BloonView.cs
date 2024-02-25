@@ -17,12 +17,8 @@ namespace ServiceLocator.Wave.Bloon
 
         private void Update() => Controller.FollowWayPoints();
 
-        public void SetRenderer(Sprite spriteToSet, BloonType bloonType)
+        public void SetRenderer(Sprite spriteToSet)
         {
-            if (bloonType == BloonType.Boss)
-            {
-                transform.localScale = 3.5f * Vector3.one;
-            }
             spriteRenderer.sprite = spriteToSet;
         }
         public void SetSortingOrder(int sortingOrder) => spriteRenderer.sortingOrder = sortingOrder;

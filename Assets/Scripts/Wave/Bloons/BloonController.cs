@@ -43,7 +43,7 @@ namespace ServiceLocator.Wave.Bloon
 
         private void InitializeVariables()
         {
-            bloonView.SetRenderer(bloonScriptableObject.Sprite, bloonScriptableObject.Type);
+            bloonView.SetRenderer(bloonScriptableObject.Sprite);
             currentHealth = bloonScriptableObject.Health;
             waypoints = new List<Vector3>();
             HitTimer = 0f;
@@ -83,12 +83,16 @@ namespace ServiceLocator.Wave.Bloon
             if (HitTimer <= 0f && currentHealth < bloonScriptableObject.Health)
             {
                 currentHealth += bloonScriptableObject.HealthRegen;
-                if (currentHealth > bloonScriptableObject.Health) currentHealth = bloonScriptableObject.Health;
-                // add time gap of 0.5f between regens
-                HitTimer = bloonScriptableObject.TimeBetweenRegen;
-                Debug.Log("Current Health: " + currentHealth);
+                if (currentHealth > bloonScriptableObject.Health)
+                    ResetHealth();
+                ResetHitTimer();
             }
         }
+
+        private void ResetHealth() => currentHealth = bloonScriptableObject.Health;
+
+        // add time gap of 0.5f between regens
+        private void ResetHitTimer() => HitTimer = bloonScriptableObject.TimeBetweenRegen;
 
         public void FollowWayPoints()
         {

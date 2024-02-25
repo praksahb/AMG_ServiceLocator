@@ -669,6 +669,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7182248003610753085, guid: 15430d56842a28843b57fd250730f142, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7182248004710957794, guid: 15430d56842a28843b57fd250730f142, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7182248004710957795, guid: 15430d56842a28843b57fd250730f142, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7182248005041137928, guid: 15430d56842a28843b57fd250730f142, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 0
@@ -689,6 +701,18 @@ PrefabInstance:
       propertyPath: mapButtons.Array.data[1]
       value: 
       objectReference: {fileID: 1185542381}
+    - target: {fileID: 7182248005041137930, guid: 15430d56842a28843b57fd250730f142, type: 3}
+      propertyPath: monkeyCellScriptableObjects.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7182248005041137930, guid: 15430d56842a28843b57fd250730f142, type: 3}
+      propertyPath: monkeyCellScriptableObjects.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1e8752db2a57d8d4b815c20cfd0ca87a, type: 2}
+    - target: {fileID: 7182248005041137930, guid: 15430d56842a28843b57fd250730f142, type: 3}
+      propertyPath: monkeyCellScriptableObjects.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: d8821819ea93b1243b8102bccc9dadfd, type: 2}
     - target: {fileID: 7182248005041137931, guid: 15430d56842a28843b57fd250730f142, type: 3}
       propertyPath: m_Name
       value: Canvas - UI Service
@@ -796,6 +820,10 @@ PrefabInstance:
     - target: {fileID: 7182248005041137935, guid: 15430d56842a28843b57fd250730f142, type: 3}
       propertyPath: m_RenderMode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7182248005337839508, guid: 15430d56842a28843b57fd250730f142, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7296937487522694705, guid: 15430d56842a28843b57fd250730f142, type: 3}
       propertyPath: m_IsActive

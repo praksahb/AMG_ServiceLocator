@@ -1,6 +1,5 @@
-using UnityEngine;
 using ServiceLocator.Wave.Bloon;
-using ServiceLocator.Main;
+using UnityEngine;
 
 namespace ServiceLocator.Player.Projectile
 {
@@ -13,6 +12,11 @@ namespace ServiceLocator.Player.Projectile
         private BloonController target;
         private ProjectileState currentState;
 
+        public ProjectileType ProjectileType
+        {
+            get { return projectileScriptableObject.Type; }
+        }
+
         public ProjectileController(PlayerService playerService, ProjectileView projectilePrefab, Transform projectileContainer)
         {
             this.playerService = playerService;
@@ -24,6 +28,15 @@ namespace ServiceLocator.Player.Projectile
         {
             this.projectileScriptableObject = projectileScriptableObject;
             projectileView.SetSprite(projectileScriptableObject.Sprite);
+            //if (projectileScriptableObject.Type == ProjectileType.Canon)
+            //{
+            //    projectileView.EnableCircleCollider();
+            //}
+            //else
+            //{
+            //    projectileView.EnableBoxCollider();
+            //}
+
             projectileView.gameObject.SetActive(true);
             target = null;
         }
@@ -46,15 +59,21 @@ namespace ServiceLocator.Player.Projectile
 
         public void UpdateProjectileMotion()
         {
-            if(target != null && currentState == ProjectileState.ACTIVE)
+            if (target != null && currentState == ProjectileState.ACTIVE)
                 projectileView.transform.Translate(Vector2.left * projectileScriptableObject.Speed * Time.deltaTime, Space.Self);
+
         }
 
         public void OnHitBloon(BloonController bloonHit)
         {
-            if(currentState == ProjectileState.ACTIVE)
+            if (currentState == ProjectileState.ACTIVE || ProjectileType == ProjectileType.Canon)
             {
                 bloonHit.TakeDamage(projectileScriptableObject.Damage);
+
+                if (projectileScriptableObject.Type == ProjectileType.EnergyBall && bloonHit.GetBloonType() != BloonType.Boss)
+                {
+                    return;
+                }
                 ResetProjectile();
                 SetState(ProjectileState.HIT_TARGET);
             }

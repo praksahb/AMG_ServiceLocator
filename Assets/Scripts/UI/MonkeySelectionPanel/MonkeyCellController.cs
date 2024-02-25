@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using ServiceLocator.Player;
-using ServiceLocator.Main;
+using UnityEngine;
 
 namespace ServiceLocator.UI
 {
@@ -18,7 +15,7 @@ namespace ServiceLocator.UI
             this.monkeyCellSO = monkeyCellScriptableObject;
             monkeyCellView = Object.Instantiate(monkeyCellPrefab, cellContainer);
             monkeyCellView.SetController(this);
-            monkeyCellView.ConfigureCellUI(monkeyCellSO.Sprite, monkeyCellSO.Name, monkeyCellSO.Cost);
+            monkeyCellView.ConfigureCellUI(monkeyCellSO.Sprite, monkeyCellSO.Name, monkeyCellSO.Cost, monkeyCellSO.IsLocked, monkeyCellSO.UnlockCost);
         }
 
         public void MonkeyDraggedAt(Vector3 dragPosition)
@@ -29,6 +26,16 @@ namespace ServiceLocator.UI
         public void MonkeyDroppedAt(Vector3 dropPosition)
         {
             playerService.TrySpawningMonkey(monkeyCellSO.Type, monkeyCellSO.Cost, dropPosition);
+        }
+
+        public bool TryUnlockingMonkey()
+        {
+            if (playerService.UnlockMonkey(monkeyCellSO.UnlockCost))
+            {
+                monkeyCellSO.IsLocked = false;
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -1,9 +1,9 @@
+using ServiceLocator.Map;
+using ServiceLocator.Player.Projectile;
+using ServiceLocator.Sound;
+using ServiceLocator.UI;
 using System.Collections.Generic;
 using UnityEngine;
-using ServiceLocator.Player.Projectile;
-using ServiceLocator.Map;
-using ServiceLocator.UI;
-using ServiceLocator.Sound;
 
 namespace ServiceLocator.Player
 {
@@ -46,12 +46,12 @@ namespace ServiceLocator.Player
 
         public void Update()
         {
-            foreach(MonkeyController monkey in activeMonkeys)
+            foreach (MonkeyController monkey in activeMonkeys)
             {
                 monkey?.UpdateMonkey();
             }
 
-            if(Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0))
             {
                 TrySelectingMonkey();
             }
@@ -63,7 +63,7 @@ namespace ServiceLocator.Player
 
             foreach (RaycastHit2D hit in hits)
             {
-                if(IsMonkeyCollider(hit.collider))
+                if (IsMonkeyCollider(hit.collider))
                 {
                     SetSelectedMonkeyView(hit.collider.GetComponent<MonkeyView>());
                     return;
@@ -112,7 +112,7 @@ namespace ServiceLocator.Player
         {
             MonkeyScriptableObject monkeyScriptableObject = GetMonkeyScriptableObjectByType(monkeyType);
             MonkeyController monkey = new MonkeyController(soundService, monkeyScriptableObject, projectilePool);
-            
+
             monkey.SetPosition(spawnPosition);
             activeMonkeys.Add(monkey);
             DeductMoney(monkeyScriptableObject.Cost);
@@ -121,14 +121,24 @@ namespace ServiceLocator.Player
         private MonkeyScriptableObject GetMonkeyScriptableObjectByType(MonkeyType monkeyType) => playerScriptableObject.MonkeyScriptableObjects.Find(so => so.Type == monkeyType);
 
         public void ReturnProjectileToPool(ProjectileController projectileToReturn) => projectilePool.ReturnItem(projectileToReturn);
-        
+
+        public bool UnlockMonkey(int monkeyCost)
+        {
+            if (monkeyCost > Money)
+            {
+                return false;
+            }
+            DeductMoney(monkeyCost);
+            return true;
+        }
+
         public void TakeDamage(int damageToTake)
         {
             int reducedHealth = health - damageToTake;
             health = reducedHealth <= 0 ? 0 : health - damageToTake;
-            
+
             uiService.UpdateHealthUI(health);
-            if(health <= 0)
+            if (health <= 0)
                 PlayerDeath();
         }
 

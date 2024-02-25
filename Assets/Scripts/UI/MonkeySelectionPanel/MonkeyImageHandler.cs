@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -15,11 +13,13 @@ namespace ServiceLocator.UI
         private Sprite spriteToSet;
         private Vector2 originalAnchoredPosition;
         private Vector3 originalPosition;
+        private bool isImageLocked;
 
-        public void ConfigureImageHandler(Sprite spriteToSet, MonkeyCellController owner)
+        public void ConfigureImageHandler(Sprite spriteToSet, MonkeyCellController owner, bool isLocked)
         {
             this.spriteToSet = spriteToSet;
             this.owner = owner;
+            isImageLocked = isLocked;
         }
 
         private void Awake()
@@ -27,9 +27,12 @@ namespace ServiceLocator.UI
             rectTransform = GetComponent<RectTransform>();
             monkeyImage = GetComponent<Image>();
             monkeyImage.sprite = spriteToSet;
+            monkeyImage.raycastTarget = !isImageLocked;
             originalPosition = rectTransform.localPosition;
             originalAnchoredPosition = rectTransform.anchoredPosition;
         }
+
+        public void UnlockImage() => monkeyImage.raycastTarget = true;
 
         public void OnPointerDown(PointerEventData eventData) => monkeyImage.color = new Color(1, 1, 1, 0.6f);
 

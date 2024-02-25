@@ -159,6 +159,5 @@ namespace ServiceLocator.UI
             else
                 gameEndText.SetText("Game Over");
         }
-
     }
 }

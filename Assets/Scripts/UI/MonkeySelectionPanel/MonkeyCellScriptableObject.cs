@@ -1,5 +1,5 @@
-using UnityEngine;
 using ServiceLocator.Player;
+using UnityEngine;
 
 namespace ServiceLocator.UI
 {
@@ -10,5 +10,7 @@ namespace ServiceLocator.UI
         public string Name;
         public Sprite Sprite;
         public int Cost;
+        public bool IsLocked;
+        public int UnlockCost;
     }
 }
